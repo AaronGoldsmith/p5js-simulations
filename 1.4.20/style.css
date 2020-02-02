@@ -1,9 +1,0 @@
-html, body {
-  margin: 0;
-  background: black;
-  padding: 0;
-}
-canvas {
-  display: block;
-  margin: 10px;
-}
