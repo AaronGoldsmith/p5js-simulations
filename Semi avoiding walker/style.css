@@ -17,9 +17,15 @@ canvas {
 }
 
 .bold{ font-weight: bold; } 
-.restart{
+.button{
   padding: 12px 18px;
   box-shadow: none;
   border-radius: 4px;
-  margin-left: 120px;
+}
+.buttonWrapper{
+  width: 200px;
+  margin: 0px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
