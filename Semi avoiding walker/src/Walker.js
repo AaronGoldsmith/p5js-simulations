@@ -1,17 +1,16 @@
 
 
 class Walker {
-  /**
-   * 
-   * @param {Color} color 
-   */
+/**
+  * @param {Color} color */
   constructor(color) {
     let startX = tileSize * (Math.floor((boardSize.x / tileSize) / 2));
     let startY = tileSize * (Math.floor((boardSize.y / tileSize) / 2));
     this.loc = createVector(startX, startY);
     this.color = color;
     this.locs = [];
-    this.avoid = 0;
+    this.avoidCount = 0;
+    this.test = 0;
 
     /** * @param {Number} n the step direction  */
     this.getStep = function (n) {
@@ -35,11 +34,11 @@ class Walker {
         for (let i = 0; i < this.locs.length; i++) {
           if (this.locs[i].x === nextStep.x &&
             this.locs[i].y === nextStep.y) {
-            this.avoid++;
+            this.avoidCount++;
             return false;
           }
         }
-        this.avoid = 0;
+        this.avoidCount = 0;
         return nextStep;
       }
       return false;
@@ -52,6 +51,7 @@ class Walker {
       this.locs = [];
     };
 
+
     this.walk = function () {
       let checkStep = this.selectNextStep();
       if (checkStep) {
@@ -59,12 +59,14 @@ class Walker {
         this.loc.set(checkStep);
         this.showStep()
       }
-      else if (this.avoid > threshold) {
+      else if (this.avoidCount > threshold) {
         // will remove tolerance -1 elements from the array
         // eg) tolerance = 3: [ 1 2 3 4 5 6] -> [1 2 x x x 6] --> [1 2 6] 
         // eg) tolerance = 1: [ 1 2 3 4 5 6] -> [1 2 3 4 x 6]  --> [1 2 3 4 6]
         this.locs.splice(this.locs.length - (1 + tolerance), tolerance);
       }
+
+
     };
 
     this.showStep = function () {

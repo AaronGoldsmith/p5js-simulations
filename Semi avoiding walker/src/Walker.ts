@@ -1,4 +1,4 @@
-import p5, { Vector, Color } from "./node_modules/@types/p5";
+import p5, { Vector, Color } from "p5";
 
 type direction = 0 | 1 | 2 | 3;
 

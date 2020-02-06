@@ -3,26 +3,34 @@
 let boardSize, tileSize, tolerance, threshold;
 let walkers
 let colorTable;
-
+let test;
 let threshSlider, toleranceSlider, tileSizeSlider;
 let threshVal, toleranceVal;
 
-
+let timer;
 function setup() {
   // defaults
   tolerance = 8;
   threshold = 4;
+  test = 0;
   initDefaults();
 
   createCanvas(boardSize.x, boardSize.y - tileSize);
   setupDOM(); 
-}
 
+}
+ 
 
 function draw() {
-  for (let walker of walkers) {
-    walker.walk();
-  }
+ 
+
+    for (let walker of walkers) {
+      walker.walk();
+    }
+    
+  
+
+  // end test
 }
 
 function restartSim() {
