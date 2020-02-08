@@ -10,8 +10,8 @@ let threshVal, toleranceVal;
 let timer;
 function setup() {
   // defaults
-  tolerance = 8;
-  threshold = 4;
+  tolerance = 4;
+  threshold = 8;
   test = 0;
   initDefaults();
 

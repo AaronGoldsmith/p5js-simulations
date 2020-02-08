@@ -89,7 +89,7 @@ function initDefaults() {
   } = customColors;
   walkers = [new Walker(blue),
   new Walker(green),
-  new Walker(brown)
+  new Walker(red)
   ]
 }
 

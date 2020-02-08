@@ -16,10 +16,14 @@ class Walker {
     this.getStep = function (n) {
       let position = this.loc.copy();
       switch (n) {
-        case (0): return position.add(tileSize, 0); // right
-        case (1): return position.add(-tileSize, 0); // left
-        case (2): return position.add(0, -tileSize); // up
-        case (3): return position.add(0, tileSize); // down
+        case (0): return position.add(tileSize, 0); // East
+        case (1): return position.add(-tileSize, 0); // West
+        case (2): return position.add(0, -tileSize); // North
+        case (3): return position.add(0, tileSize); // Sourth
+        case (4): return position.add(-tileSize, tileSize ); // SW
+        case (5): return position.add(-tileSize, -tileSize ); // NW
+        case (6): return position.add(tileSize, tileSize ); // NE
+        case (7): return position.add(tileSize, -tileSize ); // SE
         default: return null;
       }
     };
@@ -28,7 +32,7 @@ class Walker {
     * otherwise increments an "avoid" count and returns false
     * */
     this.selectNextStep = function () {
-      let dir = Math.floor(random(4));
+      let dir = Math.floor(random(8));
       let nextStep = this.getStep(dir);
       if (nextStep.onBoard(boardSize.x, boardSize.y, tileSize)) {
         for (let i = 0; i < this.locs.length; i++) {
