@@ -1,31 +1,30 @@
-
 p5.Vector.prototype.onBoard = function (w, h, size) {
   let margin = (size / 8);
-  let horizontal = this.x >= -margin && this.x <= (w - size + margin)
-  let vertical = this.y >= 0 && this.y <= (h - size + margin)
+  let horizontal = this.x >= -margin && this.x <= w - margin
+  let vertical = this.y >= 0 && this.y <= h
   return (horizontal && vertical)
 }
 
-function updateThreshold() {
-  threshVal.html(threshSlider.value());
-  threshold = threshSlider.value()
-
+const updateInputLabel = (inputSrc, label) => {
+  let val = inputSrc.value();
+  label.html(val)
+  return val
 }
 
-function updateTolerance() {
-  toleranceVal.html(toleranceSlider.value());
-  tolerance = toleranceSlider.value()
-}
-function updateTileSize() {
-  tileSizeVal.html(tileSizeSlider.value());
-  tileSize = tileSizeSlider.value()
-}
+// call functions to update respective label and return new values
+const updateThreshold = () => threshold =  updateInputLabel( threshSlider, threshVal )
+const updateTolerance = () => tolerance = updateInputLabel( toleranceSlider, toleranceVal )
+const updateTileSize = () =>  tileSize = updateInputLabel( tileSizeSlider, tileSizeVal )
+
+
 
 function setupDOM() {
   let wrapper = createDiv().class('wrapper')
   let container1 = createDiv().class('c1').parent(wrapper)
   let container2 = createDiv().class('c2').parent(wrapper)
   let container3 = createDiv().class('c3').parent(wrapper)
+  let container4 = createDiv().class('c4')
+
   let buttons = createDiv().class('buttonWrapper')
 
 
@@ -42,6 +41,7 @@ function setupDOM() {
   threshVal = createSpan(threshold).parent(container2);
   threshVal.class('bold')
 
+
   createP().parent(container2);
   threshSlider = createSlider(1, 50, 3).parent(container2)
   threshSlider.input(updateThreshold);
@@ -49,12 +49,17 @@ function setupDOM() {
 
   createSpan('Tile Size: ').parent(container3)
   tileSizeVal = createSpan(floor(tileSize)).parent(container3)
-  tileSizeVal.class('bold')
+  tileSizeVal.class('bold').id('tile_size')
 
+  
+  
   createP().parent(container3);
   tileSizeSlider = createSlider(1, 50, 3).parent(container3)
   tileSizeSlider.input(updateTileSize);
   createP()
+
+  clockVal = createP().parent(container4);
+  clockVal.html(`Time elapsed:` )
 
   let restart = createButton('Restart').parent(buttons)
   restart.class('button')
@@ -64,6 +69,7 @@ function setupDOM() {
   let dateTime = new Date().toDateString()
   save.class('button')
   save.mousePressed(() => saveCanvas('walker-' + String(dateTime)))
+  background(color('rgba(0,0,0,0.02)'))
 
 }
 
@@ -71,28 +77,57 @@ function setupDOM() {
 function initDefaults() {
   boardSize = createVector(windowWidth - 20, windowHeight - 20)
   tileSize = tileSize || boardSize.x / 400;
+  const config = {
+    melt: true,
+    color: undefined
+  }
+
+  clock = 0
 
   walkers = []
 
-
-  customColors = {
+  const customColors = {
     brown: color('rgba(112, 79, 33,0.06)'),
     blue: color('rgba(0,0,200,0.06)'),
     green: color('rgba(0,180,0,0.06)'),
-    red: color('rgba(200,0,0,0.06)')
-  }
+    red: color('rgba(200,0,0,0.06)'),
+    yellow: color("rgba(200,200,0,0.008)"),
+    custom:  color('rgba(220,180,180,0.008)')
+
+  }  
   const {
     blue,
     red,
     green,
-    brown
+    custom,
+    brown,
+    yellow
   } = customColors;
-  walkers = [new Walker(blue),
-  new Walker(green),
-  new Walker(red)
+
+
+  let configs = [
+    {...config, color: red, collisionColor: yellow},
+    {...config, color: blue, collisionColor: custom},
+    {...config, color: green},
+    {...config, color: red, collisionColor: yellow},
+    // {...config, color: blue},
+    // {...config, color: red},
+    // {...config, color: blue},
+    // {...config, color: green}
   ]
+
+  walkers = configs.map(data => new Walker(data));
 }
 
+function getTotalSec(clock){
+  return floor(clock/60)
+}
+function getTotalMin(seconds){
+  return floor(seconds/60)
+}
+function getTotalHours(minutes){
+  return floor(minutes/60)
+}
 
 /**
   *  Creates an instance of a _{c}_
