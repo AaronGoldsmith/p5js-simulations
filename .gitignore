@@ -3,3 +3,5 @@ node_modules/
 */node_modules/*
 */saveCanvas/*
 p5.ts/*
+drawSave/package-lock.json
+drawSave/package.json
