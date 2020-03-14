@@ -6,7 +6,7 @@ let locs;
 let img
 let setLocs;
 function setup() { 
-  createCanvas(140, 140);
+  createCanvas(windowWidth, 140);
   background(120);
   slider = createSlider(0,50,15);
   clearBtn = createButton('clear');
@@ -83,10 +83,12 @@ function keyPressed(){
     }))
     // console.log(img)
     img.updatePixels();
+    image(img, 0,0);
+
   }
 }
 function draw() { 
   handleDraw()
-  background(200)
-  image(img, mouseX-width/2, mouseY-height/2);
+  // background(200)
+  // image(img, mouseX-width/2, mouseY-height/2);
 }
